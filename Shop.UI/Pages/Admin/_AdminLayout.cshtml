@@ -1,0 +1,56 @@
+﻿@inject Microsoft.AspNetCore.Authorization.IAuthorizationService authService
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Shop.UI</title>
+
+    <link href="~/lib/bulma/css/bulma.css" rel="stylesheet" />
+    <link href="~/lib/bulma/css/bulma.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />*@
+
+</head>
+<body>
+    <h3 class="title has-text-centered">Admin Panel</h3>
+
+
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3">
+                <div class="menu">
+                    @if ((await authService.AuthorizeAsync(User, "Admin")).Succeeded) //sprawdza policy ustawione w Startup.cs
+                    {
+                        <p class="menu-label">Admin Menu</p>
+                        <ul class="menu-list">
+                            <li><a asp-page="/Admin/Index">Products</a></li>
+                            <li><a asp-page="/Admin/Orders">Orders</a></li>
+                            <li><a asp-page="/Admin/Stock">Storage</a></li>
+                        </ul>
+                        <p class="menu-label"></p>
+                        <ul class="menu-list">
+                            <li><a asp-page="/Index">Back to Main</a></li>
+                        </ul>
+                    }
+                </div>
+            </div>
+            <div class="column is-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @*<script src="~/js/site.min.js" asp-append-version="true"></script>*@
+
+    <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
